@@ -21,4 +21,26 @@ def lista_curso(request):
     return render(request, "lista_cursos.html", {"lista_cursos": lista})
 
 
+def inicio(request):
+    
+    return render(request, "inicio.html")
+    return HttpResponse("vista inicio")
+
+def cursos(request):
+
+    return render(request, "cursos.html")
+
+def profesores(request):
+    
+    return render(request, "profesores.html")
+
+def estudiantes(request):
+    
+    return render(request, "estudiantes.html")
+
+def entregables(request):
+    
+    return render(request, "estudiantes.html")
+
+
 
