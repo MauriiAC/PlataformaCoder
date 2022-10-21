@@ -24,11 +24,12 @@ def lista_curso(request):
 def inicio(request):
     
     return render(request, "inicio.html")
-    return HttpResponse("vista inicio")
 
 def cursos(request):
 
-    return render(request, "cursos.html")
+    lista = Curso.objects.all() 
+
+    return render(request, "cursos.html", {"lista_cursos": lista})
 
 def profesores(request):
     
