@@ -44,4 +44,17 @@ def entregables(request):
     return render(request, "estudiantes.html")
 
 
+def cursoFormulario(request):
+
+    print('method:', request.method)
+    print('post: ', request.POST)
+
+    if request.method == 'POST':
+
+        curso = Curso(nombre=request.POST['curso'], camada=request.POST['camada'])
+        curso.save()
+
+        return render(request, 'inicio.html')
+
+    return render(request, "cursoFormulario.html")
 
