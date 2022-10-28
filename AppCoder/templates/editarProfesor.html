@@ -1,0 +1,15 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+        
+    <form action="{% url 'EditarProfesor' id %}" method="POST">{% csrf_token %}
+
+        {{miFormulario.as_p}}
+
+        <input type="submit" value="Actualizar"/>
+
+    </form>
+
+{% endblock contenidoQueCambia %}
