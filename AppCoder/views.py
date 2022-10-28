@@ -1,5 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+
+from .forms import CursoFormulario
 from .models import Curso
 
 # Create your views here.
@@ -51,10 +54,42 @@ def cursoFormulario(request):
 
     if request.method == 'POST':
 
-        curso = Curso(nombre=request.POST['curso'], camada=request.POST['camada'])
-        curso.save()
+        miFormulario = CursoFormulario(request.POST)
 
-        return render(request, 'inicio.html')
+        if miFormulario.is_valid():
 
-    return render(request, "cursoFormulario.html")
+            data = miFormulario.cleaned_data
 
+            curso = Curso(nombre=data['curso'], camada=data['camada'])
+            curso.save()
+
+            return HttpResponseRedirect('/app-coder/')
+    
+    else:
+
+        miFormulario = CursoFormulario()
+
+        return render(request, "cursoFormulario.html", {"miFormulario": miFormulario})
+        
+
+def busquedaCamada(request):
+
+    return render(request, 'busquedaCamada.html')
+
+
+def buscar(request):
+ 
+
+    if request.GET["camada"]:
+
+        camada = request.GET["camada"]
+
+        cursos = Curso.objects.filter(camada__icontains=camada)
+
+        return render(request, "resultadoBusqueda.html", {"cursos": cursos, "camada": camada})
+
+    else:
+
+        respuesta = "No enviaste datos"
+
+    return HttpResponse(respuesta)
