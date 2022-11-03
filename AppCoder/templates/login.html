@@ -1,0 +1,15 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+        
+    <form action="{% url 'Login' %}" method="POST">{% csrf_token %}
+
+        {{miFormulario.as_p}}
+
+        <input type="submit" value="Iniciar Sesión"/>
+
+    </form>
+
+{% endblock contenidoQueCambia %}

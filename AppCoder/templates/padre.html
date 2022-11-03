@@ -28,7 +28,14 @@
                 <a class="navbar-brand" href="{% url 'Cursos' %}">Cursos</a>
                 <a class="navbar-brand" href="{% url 'Estudiantes' %}">Estudiantes</a>
                 <a class="navbar-brand" href="{% url 'Entregables' %}">Entregables</a>
-                <a class="btn btn-primary" href="#signup">Iniciar</a>
+                
+                {% if user.is_authenticated %}
+                    <p>Bienvenido {{user.username}}</p>
+                    <a class="btn btn-primary" href="{% url 'Logout' %}">Logout</a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'Login' %}">Login</a>
+                {% endif %}
+                    
             </div>
         </nav>
         <!-- Masthead-->
