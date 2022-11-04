@@ -22,6 +22,7 @@ from .views import (
     profesores,
     loginView,
     register,
+    editar_perfil,
 )
 
 from django.contrib.auth.views import LogoutView
@@ -50,4 +51,5 @@ urlpatterns = [
     path('login/', loginView, name="Login"),
     path('registrar/', register, name="Registrar"),
     path('logout/', LogoutView.as_view(template_name="logout.html"), name="Logout"),
+    path('editar-perfil/', editar_perfil, name="EditarPerfil"),
 ]

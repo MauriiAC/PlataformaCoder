@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import CursoFormulario, ProfesorFormulario
+from .forms import CursoFormulario, ProfesorFormulario, UserEditForm
 from .models import Curso, Profesor
 
 # Create your views here.
@@ -281,3 +281,34 @@ def register(request):
         miFormulario = UserCreationForm()
 
         return render(request, "registro.html", {"miFormulario": miFormulario})
+
+
+def editar_perfil(request):
+    
+    print('method:', request.method)
+    print('post: ', request.POST)
+
+    usuario = request.user
+
+    if request.method == 'POST':
+
+        miFormulario = UserEditForm(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            usuario.first_name = data["first_name"]
+            usuario.last_name = data["last_name"]
+            usuario.email = data["email"]
+
+            usuario.save()
+
+            return render(request, "inicio.html", {"mensaje": f'Datos actualizados!'})
+    
+    else:
+
+        miFormulario = UserEditForm(instance=request.user)
+
+        return render(request, "editarPerfil.html", {"miFormulario": miFormulario})
+
