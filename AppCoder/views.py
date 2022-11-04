@@ -10,8 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .forms import CursoFormulario, ProfesorFormulario, UserEditForm
-from .models import Curso, Profesor
+from .forms import CursoFormulario, ProfesorFormulario, UserEditForm, UserRegisterForm
+from .models import Curso, Profesor, Avatar
 
 # Create your views here.
 
@@ -34,7 +34,8 @@ def lista_curso(request):
 
 def inicio(request):
     
-    return render(request, "inicio.html")
+    avatar = Avatar.objects.get(user=request.user)
+    return render(request, "inicio.html", {"url": avatar.imagen.url})
 
 @login_required
 def cursos(request):
@@ -262,7 +263,7 @@ def register(request):
 
     if request.method == 'POST':
 
-        miFormulario = UserCreationForm(request.POST)
+        miFormulario = UserRegisterForm(request.POST)
 
         if miFormulario.is_valid():
 
@@ -278,7 +279,7 @@ def register(request):
 
     else:
 
-        miFormulario = UserCreationForm()
+        miFormulario = UserRegisterForm()
 
         return render(request, "registro.html", {"miFormulario": miFormulario})
 
@@ -301,10 +302,13 @@ def editar_perfil(request):
             usuario.first_name = data["first_name"]
             usuario.last_name = data["last_name"]
             usuario.email = data["email"]
+            usuario.set_password(data["password1"])
 
             usuario.save()
 
             return render(request, "inicio.html", {"mensaje": f'Datos actualizados!'})
+        
+        return render(request, "editarPerfil.html", {"mensaje": 'Contraseñas no coinciden'} )
     
     else:
 

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Curso
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth.models import User
 
 
@@ -58,3 +58,9 @@ class UserEditForm(UserChangeForm):
             raise forms.ValidationError("Las contraseñas no coinciden!")
         return password2
 
+class UserRegisterForm(UserCreationForm):
+
+    class Meta:
+
+        model = User
+        fields = ('username', 'last_name', 'first_name', 'email')
